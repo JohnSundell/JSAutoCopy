@@ -38,7 +38,7 @@
     }
     
     typeof(self) copy = [[self class] new];
-    NSMutableArray *copiedProperties = [NSMutableArray new];
+    NSMutableSet *copiedProperties = [NSMutableSet new];
     Class currentClass = [self class];
     
     while (currentClass && currentClass != [NSObject class]) {
