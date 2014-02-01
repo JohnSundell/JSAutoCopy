@@ -48,6 +48,8 @@ typedef id(^JSAutoCopyBlock)(NSString *propertyName, id autoCopiedValue);
  *  (both those declared in its public API and in any class extensions).
  *  Each property which value conforms to <NSCopying> will be copied and assigned
  *  to the same property of the copied object.
+ *
+ *  If the object conforms to <NSCopying> this method simply returns [self copy].
  */
 - (instancetype)autoCopy;
 

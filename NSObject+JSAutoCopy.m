@@ -33,6 +33,10 @@
 
 - (instancetype)autoCopyIgnoringProperties:(NSArray *)ignoredPropertyNames block:(JSAutoCopyBlock)block
 {
+    if ([self conformsToProtocol:@protocol(NSCopying)]) {
+        return [self copy];
+    }
+    
     typeof(self) copy = [[self class] new];
     NSMutableArray *copiedProperties = [NSMutableArray new];
     Class currentClass = [self class];
