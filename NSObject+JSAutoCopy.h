@@ -51,6 +51,12 @@ typedef id(^JSAutoCopyBlock)(NSString *propertyName, id autoCopiedValue);
  *
  *  If the object conforms to <NSCopying> this method simply returns [self copy].
  *  Mutable objects that conform to <NSMutableCopying> will return [self mutableCopy].
+ *
+ *  If this message is sent to a collection-type object (any object that conforms to
+ *  <NSFastEnumeration>, like an array, set, or dictionary), its members will be
+ *  enumerated and each of them will be copied into a mutable copy of the original object.
+ *  The copy will be a "deep" copy, meaning that any collection-type objects found within
+ *  the original object will also be copied in the same fashion.
  */
 - (instancetype)autoCopy;
 
