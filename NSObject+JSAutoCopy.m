@@ -53,7 +53,8 @@
                 }
                 
                 if ([copy respondsToSelector:@selector(objectForKey:)] && [copy respondsToSelector:@selector(setObject:forKey:)]) {
-                    id itemCopy = [[self performSelector:@selector(objectForKey:) withObject:item] autoCopy];
+                    id itemForKey = [self performSelector:@selector(objectForKey:) withObject:item];
+                    id itemCopy = [itemForKey autoCopyIgnoringProperties:nil block:block];
                     
                     [copy performSelector:@selector(setObject:forKey:) withObject:itemCopy withObject:item];
                 }
