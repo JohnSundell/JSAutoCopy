@@ -50,6 +50,7 @@ typedef id(^JSAutoCopyBlock)(NSString *propertyName, id autoCopiedValue);
  *  to the same property of the copied object.
  *
  *  If the object conforms to <NSCopying> this method simply returns [self copy].
+ *  Mutable objects that conform to <NSMutableCopying> will return [self mutableCopy].
  */
 - (instancetype)autoCopy;
 

@@ -33,6 +33,10 @@
 
 - (instancetype)autoCopyIgnoringProperties:(NSArray *)ignoredPropertyNames block:(JSAutoCopyBlock)block
 {
+    if ([self conformsToProtocol:@protocol(NSMutableCopying)]) {
+        return [self mutableCopy];
+    }
+    
     if ([self conformsToProtocol:@protocol(NSCopying)]) {
         return [self copy];
     }
