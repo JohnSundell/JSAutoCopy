@@ -34,7 +34,33 @@
 - (instancetype)autoCopyIgnoringProperties:(NSArray *)ignoredPropertyNames block:(JSAutoCopyBlock)block
 {
     if ([self conformsToProtocol:@protocol(NSMutableCopying)]) {
-        return [self mutableCopy];
+        typeof(self) copy = [self mutableCopy];
+        
+        if ([self conformsToProtocol:@protocol(NSFastEnumeration)]) {
+            if ([copy respondsToSelector:@selector(removeAllObjects)]) {
+                [copy performSelector:@selector(removeAllObjects)];
+            } else {
+                return copy;
+            }
+            
+            for (id item in (id<NSFastEnumeration>)self) {
+                if ([copy respondsToSelector:@selector(addObject:)]) {
+                    id itemCopy = [item autoCopyIgnoringProperties:nil block:block];
+                    
+                    [copy performSelector:@selector(addObject:) withObject:itemCopy];
+                    
+                    continue;
+                }
+                
+                if ([copy respondsToSelector:@selector(objectForKey:)] && [copy respondsToSelector:@selector(setObject:forKey:)]) {
+                    id itemCopy = [[self performSelector:@selector(objectForKey:) withObject:item] autoCopy];
+                    
+                    [copy performSelector:@selector(setObject:forKey:) withObject:itemCopy withObject:item];
+                }
+            }
+        }
+            
+        return copy;
     }
     
     if ([self conformsToProtocol:@protocol(NSCopying)]) {
